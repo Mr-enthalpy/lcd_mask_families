@@ -4,7 +4,8 @@ This document defines the intended mask-family taxonomy for
 `lcd_mask_families`. It is normative documentation for future development, not a
 claim that every listed family is already implemented.
 
-The active implemented families are currently `stripes` and `blocks`.
+The active implemented families are currently `blocks`, `fourier_lowfreq`, and
+`stripes`.
 
 ## Design Motivation
 
@@ -157,13 +158,14 @@ spatial frequencies.
 Typical parameters: sine and cosine coefficients for selected low-frequency
 modes, optional bias, and output normalization policy.
 
-Differentiability status: planned differentiable family.
+Differentiability status: active differentiable family.
 
 Diffraction relevance: low-frequency modes provide smooth, structured mask
 changes and can probe broad optical response trends.
 
-Recommendation: planned; useful baseline for capture and optimization if
-coefficient ranges and normalization are deterministic.
+Recommendation: active; useful baseline for capture and optimization if
+coefficient ranges and normalization are deterministic. This is not a claim of
+measured optical performance.
 
 ### `zernike_amplitude`
 
@@ -333,7 +335,7 @@ optimization.
 | `chirped_stripes` | planned | yes | no | yes | no | yes | yes | v0.4 |
 | `lattice_grating` | planned | yes | no | yes | no | yes | yes | v0.3 |
 | `radial_zones` | planned | yes | no | yes | no | yes | yes | v0.2 |
-| `fourier_lowfreq` | planned | yes | no | no | yes | yes | yes | v0.2 |
+| `fourier_lowfreq` | active | yes | no | no | yes | yes | yes | v0.2 |
 | `zernike_amplitude` | planned | yes | no | no | yes | yes | yes | v0.3 |
 | `radial_basis` | planned | yes | no | no | yes | yes | yes | v0.4 |
 | `binary_aperture_tiles` | planned | no | no | no | no | yes | no | v0.3+ |

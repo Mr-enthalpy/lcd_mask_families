@@ -10,6 +10,7 @@ The first metadata registry covers active implemented families only:
 
 ```text
 blocks
+fourier_lowfreq
 stripes
 ```
 

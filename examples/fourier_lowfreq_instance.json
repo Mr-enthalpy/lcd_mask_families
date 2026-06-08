@@ -1,0 +1,25 @@
+{
+  "family_id": "fourier_lowfreq",
+  "family_version": "0.1.0",
+  "parameters": {
+    "modes": [
+      {"kx": 1, "ky": 0, "cos": 1.0, "sin": 0.0},
+      {"kx": 0, "ky": 1, "cos": 0.25, "sin": 0.5}
+    ],
+    "bias": 0.0,
+    "contrast": 1.0,
+    "activation": "sigmoid"
+  },
+  "grid": {
+    "coordinate_frame": "normalized_lcd_pupil",
+    "shape_hw": [64, 64]
+  },
+  "projection": {
+    "output_dtype": "uint8",
+    "value_range": [0, 255],
+    "clip": true,
+    "quantization": "round"
+  },
+  "mask_id": "fourier_lowfreq_example_000",
+  "seed": null
+}
