@@ -4,12 +4,25 @@ from typing import Any, Mapping
 
 import numpy as np
 
+from ..metadata import FamilyMetadata
 
-FAMILY_METADATA = {
-    "family_id": "stripes",
-    "family_version": "0.1.0",
-    "differentiable": True,
-}
+FAMILY_METADATA = FamilyMetadata(
+    family_id="stripes",
+    family_version="0.1.0",
+    status="active",
+    differentiable=True,
+    continuous_parameters=True,
+    seeded=False,
+    diffraction_oriented=True,
+    orthogonal_basis=False,
+    recommended_for_capture=True,
+    recommended_for_optimization=True,
+    notes=(
+        "Single periodic stripe family. Binary rendering is piecewise constant; "
+        "softness > 0 provides a relaxed mathematical interface that still "
+        "requires downstream differentiability review before serious optimization."
+    ),
+)
 
 
 def render_stripes(

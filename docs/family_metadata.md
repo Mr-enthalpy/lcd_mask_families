@@ -4,25 +4,36 @@ Family metadata records the intended mathematical role of a mask family. It is
 descriptive and operationally useful, but it is not a substitute for empirical
 validation.
 
+## Current Implementation
+
+The first metadata registry covers active implemented families only:
+
+```text
+blocks
+stripes
+```
+
+Planned family metadata remains documentation-only until the family is
+implemented, registered, and tested.
+
 ## Minimal Shape
 
-Every active family should eventually expose a metadata dictionary close to this
-shape:
+Every active family should expose a metadata object close to this shape:
 
 ```python
-FAMILY_METADATA = {
-    "family_id": "...",
-    "family_version": "0.1.0",
-    "status": "active",
-    "differentiable": True,
-    "continuous_parameters": True,
-    "seeded": False,
-    "diffraction_oriented": True,
-    "orthogonal_basis": False,
-    "recommended_for_capture": True,
-    "recommended_for_optimization": True,
-    "notes": "...",
-}
+FAMILY_METADATA = FamilyMetadata(
+    family_id="...",
+    family_version="0.1.0",
+    status="active",
+    differentiable=True,
+    continuous_parameters=True,
+    seeded=False,
+    diffraction_oriented=True,
+    orthogonal_basis=False,
+    recommended_for_capture=True,
+    recommended_for_optimization=True,
+    notes="...",
+)
 ```
 
 The exact representation may evolve, but the semantics should remain stable.
@@ -86,7 +97,7 @@ validated experimental performance.
 
 ## Registry Policy
 
-Every active family should eventually expose metadata.
+Every active family should expose metadata.
 
 Planned families may be listed in documentation, but they must not appear in the
 active family registry unless they are implemented and tested.
