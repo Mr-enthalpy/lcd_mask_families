@@ -34,16 +34,22 @@ Current minimal core:
 
 ## v0.2
 
-Partially completed core expansion:
+Completed core expansion:
 
 * `fourier_lowfreq` completed as the first active v0.2 family;
 * `radial_zones` completed as an active v0.2 family;
-* `seeded_lowfreq_noise`;
+* `seeded_lowfreq_noise` completed as an active v0.2 family;
 * tests for each active family;
 * examples only in JSON unless a YAML dependency is intentionally added.
 
-This stage should reuse the active metadata registry before adding many
-families. `seeded_lowfreq_noise` remains planned.
+v0.2 closure criteria:
+
+* active metadata registry exists;
+* `fourier_lowfreq` implemented;
+* `radial_zones` implemented;
+* `seeded_lowfreq_noise` implemented;
+* all active families have deterministic render tests, metadata tests, and JSON
+  examples.
 
 ## v0.3
 

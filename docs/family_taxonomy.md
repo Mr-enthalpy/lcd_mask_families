@@ -5,7 +5,7 @@ This document defines the intended mask-family taxonomy for
 claim that every listed family is already implemented.
 
 The active implemented families are currently `blocks`, `fourier_lowfreq`,
-`radial_zones`, and `stripes`.
+`radial_zones`, `seeded_lowfreq_noise`, and `stripes`.
 
 ## Design Motivation
 
@@ -301,15 +301,15 @@ producing smooth pseudo-random masks.
 Typical parameters: seed, frequency cutoff, coefficient scale, bias, and
 normalization policy.
 
-Differentiability status: planned seeded family. Continuous parameters may exist,
-but seed is not a continuous optimization variable.
+Differentiability status: active seeded family. Although the rendered mask is
+smooth and low-frequency, the seed is not a continuous optimization variable.
 
 Diffraction relevance: provides smoother random diversity than pixel noise and
 may be useful for forward-model coverage.
 
-Recommendation: planned for capture and generalization; ordinary gradient
-optimization should operate on explicit continuous coefficients instead of seed
-changes.
+Recommendation: active for capture and generalization; not recommended for
+ordinary gradient optimization. Gradient optimization should operate on explicit
+continuous coefficients instead of seed changes.
 
 ### `seeded_blue_noise`
 
@@ -344,7 +344,7 @@ optimization.
 | `hadamard_tiles` | planned | no | no | no | yes | yes | no | v0.4 |
 | `walsh_tiles` | planned | no | no | no | yes | yes | no | v0.4 |
 | `seeded_binary_noise` | planned | no | yes | no | no | yes | no | v0.3 |
-| `seeded_lowfreq_noise` | planned | partial | yes | no | yes | yes | no | v0.2 |
+| `seeded_lowfreq_noise` | active | no | yes | no | yes | yes | no | v0.2 |
 | `seeded_blue_noise` | planned | no | yes | no | no | yes | no | v0.4 |
 
 Planned families must not appear in the active registry until they are
