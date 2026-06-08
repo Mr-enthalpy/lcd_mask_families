@@ -69,11 +69,12 @@ list_families()
 get_family_metadata(family)
 ```
 
-The current package includes three small families:
+The current package includes four small families:
 
 * `stripes`: periodic stripe masks with optional smooth relaxation.
 * `blocks`: deterministic periodic block/checker masks.
 * `fourier_lowfreq`: smooth low-frequency Fourier basis masks.
+* `radial_zones`: concentric or chirped radial zone masks.
 
 Mask identity should come from portable specs and rendering metadata, not from
 experiment-local filenames. Use `mask_spec_hash` for specs and `array_hash` for
@@ -84,8 +85,8 @@ Active family metadata is queryable:
 ```python
 from lcd_mask_families import get_family_metadata, list_families
 
-assert list_families() == ("blocks", "fourier_lowfreq", "stripes")
-metadata = get_family_metadata("fourier_lowfreq")
+assert list_families() == ("blocks", "fourier_lowfreq", "radial_zones", "stripes")
+metadata = get_family_metadata("radial_zones")
 ```
 
 ## Planning Docs

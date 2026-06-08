@@ -5,6 +5,7 @@ from .fourier_lowfreq import (
     FAMILY_METADATA as FOURIER_LOWFREQ_METADATA,
     render_fourier_lowfreq,
 )
+from .radial_zones import FAMILY_METADATA as RADIAL_ZONES_METADATA, render_radial_zones
 from .stripes import FAMILY_METADATA as STRIPES_METADATA, render_stripes
 
 
@@ -12,12 +13,14 @@ FAMILY_REGISTRY = {
     "stripes": render_stripes,
     "blocks": render_blocks,
     "fourier_lowfreq": render_fourier_lowfreq,
+    "radial_zones": render_radial_zones,
 }
 
 FAMILY_METADATA_REGISTRY = {
     "stripes": STRIPES_METADATA,
     "blocks": BLOCKS_METADATA,
     "fourier_lowfreq": FOURIER_LOWFREQ_METADATA,
+    "radial_zones": RADIAL_ZONES_METADATA,
 }
 
 
@@ -38,5 +41,6 @@ __all__ = [
     "FAMILY_REGISTRY",
     "render_blocks",
     "render_fourier_lowfreq",
+    "render_radial_zones",
     "render_stripes",
 ]
