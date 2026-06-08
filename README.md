@@ -13,6 +13,14 @@ The initial implementation is NumPy-only. Torch or other differentiable backends
 may be added later as optional work, provided they preserve the same mathematical
 definitions and deterministic behavior.
 
+The active public API is intentionally small. Family-specific integration into
+capture plans, differentiable training loops, or reconstruction experiments
+belongs in downstream repositories.
+
+All consumers use the same core functions and wrap them independently. This
+package should not grow separate APIs for capture, forward-model training, or
+reconstruction use cases.
+
 ## Install
 
 ```bash
@@ -67,3 +75,11 @@ The current package includes two small families:
 Mask identity should come from portable specs and rendering metadata, not from
 experiment-local filenames. Use `mask_spec_hash` for specs and `array_hash` for
 rendered arrays.
+
+## Planning Docs
+
+Detailed planning lives outside the README:
+
+* [Mask family taxonomy](docs/family_taxonomy.md)
+* [Family metadata policy](docs/family_metadata.md)
+* [Implementation plan](docs/implementation_plan.md)
