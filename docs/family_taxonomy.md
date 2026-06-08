@@ -4,8 +4,8 @@ This document defines the intended mask-family taxonomy for
 `lcd_mask_families`. It is normative documentation for future development, not a
 claim that every listed family is already implemented.
 
-The active implemented families are currently `blocks`, `fourier_lowfreq`, and
-`stripes`.
+The active implemented families are currently `blocks`, `fourier_lowfreq`,
+`radial_zones`, and `stripes`.
 
 ## Design Motivation
 
@@ -135,14 +135,16 @@ center point.
 Typical parameters: center, radial period, phase, duty, radial scale, and
 softness.
 
-Differentiability status: planned differentiable family if implemented with
-continuous center, scale, phase, and relaxed boundaries.
+Differentiability status: active differentiable family. Hard zones are
+piecewise constant; `softness > 0` provides a relaxed mathematical interface
+that requires downstream differentiability review.
 
 Diffraction relevance: radial structure may affect radial peak spread and
 low-order circular diffraction features.
 
-Recommendation: planned; useful candidate for capture and optimization, subject
-to validation of center and radial-frequency parameter behavior.
+Recommendation: active; useful candidate for capture and optimization as design
+intent, subject to downstream validation. This is not a claim of measured PSF
+performance.
 
 ## Class 2: Orthogonal / Low-Dimensional Basis Families
 
@@ -334,7 +336,7 @@ optimization.
 | `multi_stripes` | planned | yes | no | yes | no | yes | yes | v0.3 |
 | `chirped_stripes` | planned | yes | no | yes | no | yes | yes | v0.4 |
 | `lattice_grating` | planned | yes | no | yes | no | yes | yes | v0.3 |
-| `radial_zones` | planned | yes | no | yes | no | yes | yes | v0.2 |
+| `radial_zones` | active | yes | no | yes | no | yes | yes | v0.2 |
 | `fourier_lowfreq` | active | yes | no | no | yes | yes | yes | v0.2 |
 | `zernike_amplitude` | planned | yes | no | no | yes | yes | yes | v0.3 |
 | `radial_basis` | planned | yes | no | no | yes | yes | yes | v0.4 |
