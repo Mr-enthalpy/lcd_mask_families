@@ -111,6 +111,8 @@ metadata = get_family_metadata("seeded_lowfreq_noise")
 Detailed planning lives outside the README:
 
 * [Current stage](docs/current_stage.md)
+* [v0.2 contract](docs/v0_2_contract.md)
+* [Downstream readiness](docs/downstream_readiness.md)
 * [Mask family taxonomy](docs/family_taxonomy.md)
 * [Family metadata policy](docs/family_metadata.md)
 * [Implementation plan](docs/implementation_plan.md)
