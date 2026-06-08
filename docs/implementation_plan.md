@@ -26,6 +26,7 @@ Current minimal core:
 * `render_display_mask`;
 * `stripes`;
 * `blocks`;
+* active family metadata registry;
 * NumPy backend;
 * projection and quantization;
 * deterministic spec and array hashing;
@@ -35,14 +36,14 @@ Current minimal core:
 
 Planned next core expansion:
 
-* family metadata registry;
 * `fourier_lowfreq`;
 * `radial_zones`;
 * `seeded_lowfreq_noise`;
 * tests for each active family;
 * examples only in JSON unless a YAML dependency is intentionally added.
 
-This stage should clarify metadata exposure before adding many families.
+This stage should reuse the active metadata registry before adding many
+families.
 
 ## v0.3
 

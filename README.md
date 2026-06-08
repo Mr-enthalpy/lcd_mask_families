@@ -65,6 +65,8 @@ mask = render_display_mask(
 render_continuous_mask(family, params, grid, *, backend="numpy")
 project_display_mask(mask, projection, *, backend="numpy")
 render_display_mask(family, params, grid, projection, *, backend="numpy")
+list_families()
+get_family_metadata(family)
 ```
 
 The current package includes two small families:
@@ -75,6 +77,15 @@ The current package includes two small families:
 Mask identity should come from portable specs and rendering metadata, not from
 experiment-local filenames. Use `mask_spec_hash` for specs and `array_hash` for
 rendered arrays.
+
+Active family metadata is queryable:
+
+```python
+from lcd_mask_families import get_family_metadata, list_families
+
+assert list_families() == ("blocks", "stripes")
+metadata = get_family_metadata("stripes")
+```
 
 ## Planning Docs
 

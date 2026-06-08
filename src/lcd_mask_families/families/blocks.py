@@ -4,12 +4,24 @@ from typing import Any, Mapping
 
 import numpy as np
 
+from ..metadata import FamilyMetadata
 
-FAMILY_METADATA = {
-    "family_id": "blocks",
-    "family_version": "0.1.0",
-    "differentiable": False,
-}
+FAMILY_METADATA = FamilyMetadata(
+    family_id="blocks",
+    family_version="0.1.0",
+    status="active",
+    differentiable=False,
+    continuous_parameters=False,
+    seeded=False,
+    diffraction_oriented=False,
+    orthogonal_basis=False,
+    recommended_for_capture=True,
+    recommended_for_optimization=False,
+    notes=(
+        "Structured periodic block/checker family for capture diversity and "
+        "generalization tests, not ordinary gradient-based optimization."
+    ),
+)
 
 
 def render_blocks(
