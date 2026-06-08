@@ -1,0 +1,23 @@
+{
+  "family_id": "blocks",
+  "family_version": "0.1.0",
+  "parameters": {
+    "block_h": 8,
+    "block_w": 8,
+    "offset_y": 0,
+    "offset_x": 0,
+    "invert": false
+  },
+  "grid": {
+    "coordinate_frame": "pixel_index",
+    "shape_hw": [64, 64]
+  },
+  "projection": {
+    "output_dtype": "uint8",
+    "value_range": [0, 255],
+    "clip": true,
+    "quantization": "round"
+  },
+  "mask_id": "blocks_example_000",
+  "seed": null
+}

@@ -1,234 +1,69 @@
 # lcd_mask_families
 
-`lcd_mask_families` is a small library for reproducible parameterized LCD mask families.
+`lcd_mask_families` is a small pure-function kernel library for deterministic,
+parameterized LCD mask families.
 
-It provides pure mask-generation functions and declarative specs. It does not implement capture, calibration, PSF measurement, forward surrogate learning, reconstruction, or mask optimization.
+It owns the mathematical map from family parameters to continuous masks and
+display-projected masks. It does not implement capture plans, LCD services, PSF
+measurement, surrogate learning, reconstruction, H-matrix diagnostics, or mask
+optimization loops. Downstream repositories should wrap this core API for their
+own runtime needs.
 
-## Project role
+The initial implementation is NumPy-only. Torch or other differentiable backends
+may be added later as optional work, provided they preserve the same mathematical
+definitions and deterministic behavior.
 
-This repository is the shared mask-definition layer for a larger mono-LCD programmable diffraction imaging system.
+## Install
 
-```text
-lcd_mask_families
-  -> defines mask families, parameters, grids, projections, and deterministic mask identity
-
-optic_system
-  -> wraps these definitions for capture plans and physical LCD display
-
-LCD_forward
-  -> wraps these definitions for differentiable mask-family optimization and LCD-to-operator modelling
-
-reconstruction
-  -> may consume mask sequence identity when evaluating operator or reconstruction experiments
+```bash
+pip install -e .
 ```
 
-The core rule is:
+For tests:
 
-```text
-one mathematical mask-generation process;
-different repositories may wrap it for different purposes.
+```bash
+pip install -e ".[dev]"
+pytest -q
 ```
 
-## What this repository owns
-
-`lcd_mask_families` owns:
-
-* Mask family definitions.
-* Parameter schemas.
-* Coordinate grids.
-* Continuous mask rendering.
-* Display projection / quantization.
-* Mask instance and mask sequence specs.
-* Deterministic mask hashes and provenance.
-* Small reference examples and tests.
-
-It should answer:
-
-```text
-Given a family, parameters, grid, and projection policy, what mask is produced?
-```
-
-## What this repository does not own
-
-This repository does not own:
-
-* Camera, LCD, or TLS control.
-* Capture plans as experimental workflows.
-* Raw HDF5 or measured artifact generation.
-* PSF dictionaries.
-* Peak-cluster extraction.
-* LCD-to-PSF or LCD-to-operator surrogate training.
-* H-matrix diagnostics.
-* Reconstruction algorithms.
-* End-to-end mask optimization.
-
-Those responsibilities belong to `optic_system`, `LCD_forward`, and `reconstruction`.
-
-## Conceptual API
-
-The stable conceptual API is:
+## Minimal Usage
 
 ```python
-render_continuous_mask(
-    family,
-    params,
+from lcd_mask_families import (
+    GridSpec,
+    ProjectionSpec,
+    render_display_mask,
+)
+
+grid = GridSpec(coordinate_frame="normalized_lcd_pupil", shape_hw=(64, 64))
+projection = ProjectionSpec(output_dtype="uint8")
+
+mask = render_display_mask(
+    "stripes",
+    {
+        "angle_rad": 0.0,
+        "period": 0.25,
+        "phase_rad": 0.0,
+        "duty": 0.5,
+    },
     grid,
-    *,
-    backend,
-)
-
-project_display_mask(
-    mask,
     projection,
-    *,
-    backend,
-)
-
-render_display_mask(
-    family,
-    params,
-    grid,
-    projection,
-    *,
-    backend,
 )
 ```
 
-`render_continuous_mask` should produce a differentiable continuous mask when used with a differentiable backend.
+## Public API
 
-`project_display_mask` should isolate deployment-oriented clipping, normalization, binarization, or uint8 quantization.
-
-`render_display_mask` is a convenience composition:
-
-```text
-render_continuous_mask -> project_display_mask
+```python
+render_continuous_mask(family, params, grid, *, backend="numpy")
+project_display_mask(mask, projection, *, backend="numpy")
+render_display_mask(family, params, grid, projection, *, backend="numpy")
 ```
 
-## Specs
+The current package includes two small families:
 
-A minimal mask instance spec should record:
+* `stripes`: periodic stripe masks with optional smooth relaxation.
+* `blocks`: deterministic periodic block/checker masks.
 
-```yaml
-family_id: stripes
-family_version: 0.1.0
-
-parameters:
-  angle_rad: 0.785398163
-  period_px: 32.0
-  phase_rad: 0.0
-  duty: 0.5
-
-grid:
-  coordinate_frame: normalized_lcd_pupil
-  shape_hw: [64, 64]
-
-projection:
-  output_dtype: uint8
-  value_range: [0, 255]
-  quantization: round
-
-identity:
-  mask_id: stripes_example_000
-  seed: null
-```
-
-The exact schema may evolve, but the spec must remain independent of `optic_system` and `LCD_forward` internals.
-
-## Intended repository structure
-
-```text
-src/lcd_mask_families/
-  __init__.py
-  specs.py
-  grids.py
-  projection.py
-  hashing.py
-  backends.py
-  families/
-    __init__.py
-    stripes.py
-    radial_zones.py
-    fourier_lowfreq.py
-    blocks.py
-    seeded_noise.py
-
-schemas/
-  mask_family_spec.schema.json
-  mask_instance_spec.schema.json
-  mask_sequence_spec.schema.json
-
-examples/
-  stripes.yaml
-  radial_zones.yaml
-  lowfreq_fourier.yaml
-
-tests/
-  test_determinism.py
-  test_projection.py
-  test_hash_identity.py
-  test_backend_parity.py
-```
-
-This structure is a target, not a requirement for the initial commit.
-
-## Consumer usage model
-
-### optic_system side
-
-`optic_system` should use this library through its own service or capture-plan adapter.
-
-Example conceptual flow:
-
-```text
-capture plan references mask spec
-  -> optic_system adapter loads spec
-  -> lcd_mask_families renders display mask
-  -> optic_system LCDService displays physical mask
-  -> optic_system records mask spec, hash, and projection metadata
-```
-
-`lcd_mask_families` should not parse full optic_system capture plans.
-
-### LCD_forward side
-
-`LCD_forward` should use this library through its own differentiable wrapper.
-
-Example conceptual flow:
-
-```text
-optimization variable θ
-  -> lcd_mask_families continuous mask renderer
-  -> LCD_forward relaxed / differentiable projection policy
-  -> LCD-to-peak-cluster/operator surrogate
-  -> H-matrix or reconstruction loss
-```
-
-`lcd_mask_families` should not implement surrogate models, losses, or optimizers.
-
-## Determinism
-
-For the same family, parameters, grid, projection, seed, and library version, rendering should be deterministic.
-
-Mask identity should be computed from the spec and relevant rendering metadata, not from experiment-local filenames.
-
-## Testing
-
-Default tests must be hardware-free and should not require external repositories.
-
-Expected tests:
-
-```text
-deterministic rendering
-parameter validation
-projection behavior
-hash stability
-numpy / torch parity, if torch backend exists
-schema round-trip, if schemas exist
-```
-
-## Design summary
-
-```text
-lcd_mask_families defines reproducible differentiable mask maps.
-Consumers decide how to execute, optimize, serialize, display, or evaluate them.
-```
+Mask identity should come from portable specs and rendering metadata, not from
+experiment-local filenames. Use `mask_spec_hash` for specs and `array_hash` for
+rendered arrays.
