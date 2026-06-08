@@ -10,8 +10,8 @@ from lcd_mask_families.families import FAMILY_METADATA_REGISTRY, FAMILY_REGISTRY
 
 
 def test_list_families_returns_active_implemented_families():
-    assert list_families() == ("blocks", "stripes")
-    assert list_families(status="active") == ("blocks", "stripes")
+    assert list_families() == ("blocks", "fourier_lowfreq", "stripes")
+    assert list_families(status="active") == ("blocks", "fourier_lowfreq", "stripes")
 
 
 def test_stripes_metadata():
@@ -35,6 +35,17 @@ def test_blocks_metadata():
     assert metadata.recommended_for_optimization is False
 
 
+def test_fourier_lowfreq_metadata():
+    metadata = get_family_metadata("fourier_lowfreq")
+
+    assert metadata.family_id == "fourier_lowfreq"
+    assert metadata.status == "active"
+    assert metadata.differentiable is True
+    assert metadata.orthogonal_basis is True
+    assert metadata.diffraction_oriented is False
+    assert metadata.recommended_for_optimization is True
+
+
 def test_metadata_dict_is_plain_dict():
     metadata = get_family_metadata_dict("stripes")
 
@@ -45,7 +56,7 @@ def test_metadata_dict_is_plain_dict():
 
 def test_unknown_family_raises_value_error():
     with pytest.raises(ValueError):
-        get_family_metadata("fourier_lowfreq")
+        get_family_metadata("radial_zones")
 
 
 def test_unsupported_status_raises_value_error():
