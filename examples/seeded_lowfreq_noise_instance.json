@@ -1,0 +1,25 @@
+{
+  "family_id": "seeded_lowfreq_noise",
+  "family_version": "0.1.0",
+  "parameters": {
+    "seed": 1234,
+    "max_frequency": 3,
+    "spectrum_decay": 1.0,
+    "coefficient_scale": 1.0,
+    "bias": 0.0,
+    "contrast": 1.0,
+    "activation": "sigmoid"
+  },
+  "grid": {
+    "coordinate_frame": "normalized_lcd_pupil",
+    "shape_hw": [64, 64]
+  },
+  "projection": {
+    "output_dtype": "uint8",
+    "value_range": [0, 255],
+    "clip": true,
+    "quantization": "round"
+  },
+  "mask_id": "seeded_lowfreq_noise_example_000",
+  "seed": 1234
+}

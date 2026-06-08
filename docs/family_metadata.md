@@ -12,6 +12,7 @@ The first metadata registry covers active implemented families only:
 blocks
 fourier_lowfreq
 radial_zones
+seeded_lowfreq_noise
 stripes
 ```
 
