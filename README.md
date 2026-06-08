@@ -9,8 +9,14 @@ measurement, surrogate learning, reconstruction, H-matrix diagnostics, or mask
 optimization loops. Downstream repositories should wrap this core API for their
 own runtime needs.
 
-The initial implementation is NumPy-only. Torch or other differentiable backends
-may be added later as optional work, provided they preserve the same mathematical
+The v0.2 family set is complete. The repository is currently in a
+pre-integration stabilization stage: active families, metadata, examples,
+deterministic hashing, and tests should remain stable while downstream
+repositories decide how to wrap the core API.
+
+This stage should not add downstream adapters or begin v0.3 family expansion.
+The implementation is NumPy-only. Torch or other differentiable backends may be
+added later as optional work, provided they preserve the same mathematical
 definitions and deterministic behavior.
 
 The active public API is intentionally small. Family-specific integration into
@@ -67,9 +73,13 @@ project_display_mask(mask, projection, *, backend="numpy")
 render_display_mask(family, params, grid, projection, *, backend="numpy")
 list_families()
 get_family_metadata(family)
+mask_spec_hash(spec)
+array_hash(mask)
 ```
 
-The current package includes five small families:
+## Current Stage
+
+The active v0.2 family set is complete:
 
 * `stripes`: periodic stripe masks with optional smooth relaxation.
 * `blocks`: deterministic periodic block/checker masks.
@@ -100,6 +110,7 @@ metadata = get_family_metadata("seeded_lowfreq_noise")
 
 Detailed planning lives outside the README:
 
+* [Current stage](docs/current_stage.md)
 * [Mask family taxonomy](docs/family_taxonomy.md)
 * [Family metadata policy](docs/family_metadata.md)
 * [Implementation plan](docs/implementation_plan.md)

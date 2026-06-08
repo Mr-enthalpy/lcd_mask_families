@@ -3,22 +3,35 @@
 This plan stages the growth of `lcd_mask_families` while preserving its role as
 a pure, deterministic mask-generation kernel library.
 
-Implementation order is guided by:
+## Current Stage
 
-* physical interpretability;
-* expected PSF / diffraction-peak sensitivity as design intent;
-* low-dimensional parameterization;
-* deterministic rendering;
-* testability;
-* lack of consumer-specific assumptions.
+v0.2 is complete.
 
-No stage should add capture-plan parsing, LCD display integration, PSF artifact
-handling, surrogate training, H-matrix diagnostics, reconstruction code, or
-optimization loops.
+Active v0.2 family set:
 
-## v0.1
+* `stripes`
+* `blocks`
+* `fourier_lowfreq`
+* `radial_zones`
+* `seeded_lowfreq_noise`
 
-Current minimal core:
+Current work is pre-integration stabilization:
+
+* keep public API stable;
+* keep metadata registry stable;
+* keep JSON examples aligned with `MaskInstanceSpec`;
+* keep tests deterministic and hardware-free;
+* prepare documentation for downstream wrappers;
+* avoid adding consumer-specific logic;
+* avoid starting v0.3 family expansion.
+
+This repository should not implement `optic_system` capture-plan adapters,
+`LCD_forward` differentiable wrappers, reconstruction experiment interfaces,
+PSF/H-matrix logic, or optimization loops.
+
+## Completed v0.1
+
+Initial core:
 
 * `GridSpec`, `ProjectionSpec`, and `MaskInstanceSpec`;
 * `render_continuous_mask`;
@@ -32,15 +45,16 @@ Current minimal core:
 * deterministic spec and array hashing;
 * hardware-free tests.
 
-## v0.2
+## Completed v0.2
 
-Completed core expansion:
+v0.2 completed the first planned family expansion:
 
-* `fourier_lowfreq` completed as the first active v0.2 family;
-* `radial_zones` completed as an active v0.2 family;
-* `seeded_lowfreq_noise` completed as an active v0.2 family;
-* tests for each active family;
-* examples only in JSON unless a YAML dependency is intentionally added.
+* `fourier_lowfreq`;
+* `radial_zones`;
+* `seeded_lowfreq_noise`;
+* deterministic render tests for each active family;
+* metadata tests for each active family;
+* JSON examples for each active family.
 
 v0.2 closure criteria:
 
@@ -51,35 +65,52 @@ v0.2 closure criteria:
 * all active families have deterministic render tests, metadata tests, and JSON
   examples.
 
-## v0.3
+## Pre-Integration Stabilization
 
-Planned structured family expansion:
+The next phase is not v0.3 implementation. The next phase is to stabilize the
+v0.2 API and documentation so that downstream repositories can consume the
+library through their own adapter layers.
+
+Stabilization work may include:
+
+* tightening documentation around public API behavior;
+* checking that JSON examples round-trip cleanly through `MaskInstanceSpec`;
+* reviewing metadata wording so design intent is not mistaken for empirical
+  optical validation;
+* improving tests around deterministic identity and parameter validation;
+* documenting downstream integration expectations without implementing
+  downstream adapters.
+
+Stabilization work must not add capture-plan parsing, LCD display integration,
+PSF artifact handling, surrogate training, H-matrix diagnostics, reconstruction
+code, or optimization loops.
+
+## Future v0.3
+
+v0.3 is planned, not current. It should not begin until the v0.2 API has been
+used or reviewed by at least one downstream wrapper design.
+
+Candidate v0.3 families:
 
 * `multi_stripes`;
 * `lattice_grating`;
 * `zernike_amplitude`;
-* `seeded_binary_noise`;
-* active/planned registry audit.
+* `seeded_binary_noise`.
 
 `zernike_amplitude` should remain amplitude or transmission oriented. Do not
 rename it to a phase Zernike family unless the physical LCD model supports phase
 modulation.
 
-## v0.4
+## Future v0.4 And Optional Work
 
-Planned advanced and capture-diversity expansion:
+Later candidate families:
 
 * `chirped_stripes`;
 * `hadamard_tiles` / `walsh_tiles`;
 * `radial_basis`;
 * `seeded_blue_noise`.
 
-Structured non-differentiable families should be documented as capture and
-generalization tools, not ordinary gradient-optimization spaces.
-
-## Future Optional Work
-
-Optional work after the core remains stable:
+Optional backend work after the core remains stable:
 
 * torch backend as an optional extra;
 * differentiability parity tests;

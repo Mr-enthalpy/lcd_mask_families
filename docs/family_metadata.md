@@ -4,20 +4,23 @@ Family metadata records the intended mathematical role of a mask family. It is
 descriptive and operationally useful, but it is not a substitute for empirical
 validation.
 
-## Current Implementation
+## Current Active Metadata Set
 
-The first metadata registry covers active implemented families only:
+As of v0.2, active metadata is expected for:
 
 ```text
+stripes
 blocks
 fourier_lowfreq
 radial_zones
 seeded_lowfreq_noise
-stripes
 ```
 
-Planned family metadata remains documentation-only until the family is
-implemented, registered, and tested.
+Metadata is queryable for active families through `list_families()` and
+`get_family_metadata()`.
+
+Planned families may be discussed in documentation, but they must not be
+returned by `list_families()` until implemented, registered, and tested.
 
 ## Minimal Shape
 

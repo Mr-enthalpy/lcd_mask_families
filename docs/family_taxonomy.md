@@ -7,6 +7,11 @@ claim that every listed family is already implemented.
 The active implemented families are currently `blocks`, `fourier_lowfreq`,
 `radial_zones`, `seeded_lowfreq_noise`, and `stripes`.
 
+The taxonomy is now synchronized with the v0.2 active registry. Active means
+implemented, registered, documented, and tested. Planned families remain
+documentation-level design targets and must not appear in the active registry
+until implemented and tested.
+
 ## Design Motivation
 
 Useful mask families should not be arbitrary image generators. They should be
@@ -39,6 +44,9 @@ family + parameters + grid + projection policy -> mask
 
 Downstream systems measure, optimize, reconstruct, or evaluate the consequences
 of those masks.
+
+Metadata fields such as `recommended_for_capture` and `diffraction_oriented`
+describe design intent, not validated optical performance claims.
 
 All consumers should use the same core functions:
 
