@@ -11,13 +11,42 @@ FAMILY_METADATA = FamilyMetadata(
     family_id="radial_zones",
     family_version="0.1.0",
     status="active",
-    differentiable=True,
-    continuous_parameters=True,
-    seeded=False,
-    diffraction_oriented=True,
-    orthogonal_basis=False,
-    recommended_for_capture=True,
-    recommended_for_optimization=True,
+    differentiability={
+        "continuous_parameters": True,
+        "differentiable_render": True,
+        "differentiable_projection": "none",
+        "seed_is_optimization_variable": False,
+    },
+    design_intent={
+        "diffraction_oriented": True,
+        "orthogonal_basis": False,
+        "seeded_random": False,
+        "recommended_for_capture": True,
+        "recommended_for_optimization": True,
+        "random_walk_risk": "low",
+    },
+    response_prior={
+        "expected_effect": [
+            "diffraction_order_shift",
+            "diffraction_order_strength_change",
+            "peak_spread_change",
+        ],
+        "validated_by_measured_psf": False,
+    },
+    parameter_schema={
+        "required": [],
+        "optional": [
+            "center_x",
+            "center_y",
+            "scale_x",
+            "scale_y",
+            "radial_frequency",
+            "quadratic_rate",
+            "phase_rad",
+            "duty",
+            "softness",
+        ],
+    },
     notes=(
         "Radial zone family for concentric or chirped ring-like masks. "
         "Hard zones are piecewise constant; softness > 0 provides a relaxed "

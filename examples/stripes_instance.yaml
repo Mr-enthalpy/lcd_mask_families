@@ -1,0 +1,22 @@
+schema_version: lcd_mask_families.v0.1
+family_id: stripes
+family_version: 0.1.0
+parameters:
+  angle_rad: 0.785398163
+  period: 0.25
+  phase_rad: 0.0
+  duty: 0.5
+  softness: 0.0
+grid:
+  coordinate_frame: normalized_lcd_pupil
+  shape_hw: [32, 32]
+projection:
+  output_dtype: uint8
+  value_range: [0, 255]
+  quantization: round
+  clip: true
+  normalize: none
+identity:
+  mask_id: stripes_example_000
+metadata:
+  role: handshake_example

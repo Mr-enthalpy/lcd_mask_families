@@ -11,13 +11,35 @@ FAMILY_METADATA = FamilyMetadata(
     family_id="seeded_lowfreq_noise",
     family_version="0.1.0",
     status="active",
-    differentiable=False,
-    continuous_parameters=False,
-    seeded=True,
-    diffraction_oriented=False,
-    orthogonal_basis=True,
-    recommended_for_capture=True,
-    recommended_for_optimization=False,
+    differentiability={
+        "continuous_parameters": False,
+        "differentiable_render": False,
+        "differentiable_projection": "none",
+        "seed_is_optimization_variable": False,
+    },
+    design_intent={
+        "diffraction_oriented": False,
+        "orthogonal_basis": True,
+        "seeded_random": True,
+        "recommended_for_capture": True,
+        "recommended_for_optimization": False,
+        "random_walk_risk": "high",
+    },
+    response_prior={
+        "expected_effect": ["response_space_coverage", "peak_spread_change"],
+        "validated_by_measured_psf": False,
+    },
+    parameter_schema={
+        "required": ["seed"],
+        "optional": [
+            "max_frequency",
+            "spectrum_decay",
+            "coefficient_scale",
+            "bias",
+            "contrast",
+            "activation",
+        ],
+    },
     notes=(
         "Seeded low-frequency pseudo-random family for capture diversity and "
         "forward-model generalization. The seed is part of deterministic mask "

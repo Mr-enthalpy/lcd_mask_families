@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/lcd_mask_families/family_metadata.schema.json",
+  "title": "lcd_mask_families v0.1 family metadata",
+  "type": "object",
+  "required": [
+    "family_id",
+    "family_version",
+    "status",
+    "differentiability",
+    "design_intent",
+    "response_prior"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "family_id": {"type": "string", "minLength": 1},
+    "family_version": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["active", "experimental", "planned"]},
+    "differentiability": {
+      "type": "object",
+      "required": [
+        "continuous_parameters",
+        "differentiable_render",
+        "differentiable_projection",
+        "seed_is_optimization_variable"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "continuous_parameters": {"type": "boolean"},
+        "differentiable_render": {"type": "boolean"},
+        "differentiable_projection": {
+          "type": "string",
+          "enum": ["exact", "relaxed", "ste", "none"]
+        },
+        "seed_is_optimization_variable": {"const": false}
+      }
+    },
+    "design_intent": {
+      "type": "object",
+      "required": [
+        "diffraction_oriented",
+        "orthogonal_basis",
+        "seeded_random",
+        "recommended_for_capture",
+        "recommended_for_optimization",
+        "random_walk_risk"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "diffraction_oriented": {"type": "boolean"},
+        "orthogonal_basis": {"type": "boolean"},
+        "seeded_random": {"type": "boolean"},
+        "recommended_for_capture": {"type": "boolean"},
+        "recommended_for_optimization": {"type": "boolean"},
+        "random_walk_risk": {"type": "string", "enum": ["low", "medium", "high"]}
+      }
+    },
+    "response_prior": {
+      "type": "object",
+      "required": ["expected_effect", "validated_by_measured_psf"],
+      "additionalProperties": true,
+      "properties": {
+        "expected_effect": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "diffraction_order_shift",
+              "diffraction_order_strength_change",
+              "peak_spread_change",
+              "response_space_coverage"
+            ]
+          }
+        },
+        "validated_by_measured_psf": {"const": false}
+      }
+    },
+    "parameter_schema": {"type": "object"},
+    "notes": {"type": "string"}
+  }
+}

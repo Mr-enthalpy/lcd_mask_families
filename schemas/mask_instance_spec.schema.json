@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/lcd_mask_families/mask_instance_spec.schema.json",
+  "title": "lcd_mask_families v0.1 mask instance spec",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "family_id",
+    "family_version",
+    "parameters",
+    "grid",
+    "projection"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {"const": "lcd_mask_families.v0.1"},
+    "family_id": {"type": "string", "minLength": 1},
+    "family_version": {"type": "string", "minLength": 1},
+    "parameters": {"type": "object"},
+    "grid": {
+      "type": "object",
+      "required": ["coordinate_frame", "shape_hw"],
+      "additionalProperties": true,
+      "properties": {
+        "coordinate_frame": {
+          "type": "string",
+          "enum": ["normalized_lcd_pupil", "pixel_index"]
+        },
+        "shape_hw": {
+          "type": "array",
+          "prefixItems": [
+            {"type": "integer", "minimum": 1},
+            {"type": "integer", "minimum": 1}
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "extent": {
+          "type": "array",
+          "items": {"type": "number"},
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "origin": {"type": "string"},
+        "metadata": {"type": "object"}
+      }
+    },
+    "projection": {
+      "type": "object",
+      "required": ["output_dtype", "value_range", "quantization"],
+      "additionalProperties": true,
+      "properties": {
+        "output_dtype": {"type": "string", "enum": ["uint8", "float32"]},
+        "value_range": {
+          "type": "array",
+          "prefixItems": [{"type": "number"}, {"type": "number"}],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "quantization": {"type": "string", "enum": ["round", "none", "threshold"]},
+        "clip": {"type": "boolean"},
+        "threshold": {"type": "number", "minimum": 0, "maximum": 1},
+        "normalize": {"type": "string", "enum": ["none", "minmax"]},
+        "metadata": {"type": "object"}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mask_id": {"type": "string"},
+        "hash": {"type": "string"}
+      }
+    },
+    "metadata": {"type": "object"},
+    "seed": {"type": "integer"}
+  }
+}

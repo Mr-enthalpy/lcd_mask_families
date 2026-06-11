@@ -7,7 +7,7 @@ claim that every listed family is already implemented.
 The active implemented families are currently `blocks`, `fourier_lowfreq`,
 `radial_zones`, `seeded_lowfreq_noise`, and `stripes`.
 
-The taxonomy is now synchronized with the v0.2 active registry. Active means
+The taxonomy is now synchronized with the v0.1 active registry. Active means
 implemented, registered, documented, and tested. Planned families remain
 documentation-level design targets and must not appear in the active registry
 until implemented and tested.
@@ -344,15 +344,15 @@ optimization.
 | `multi_stripes` | planned | yes | no | yes | no | yes | yes | v0.3 |
 | `chirped_stripes` | planned | yes | no | yes | no | yes | yes | v0.4 |
 | `lattice_grating` | planned | yes | no | yes | no | yes | yes | v0.3 |
-| `radial_zones` | active | yes | no | yes | no | yes | yes | v0.2 |
-| `fourier_lowfreq` | active | yes | no | no | yes | yes | yes | v0.2 |
+| `radial_zones` | active | yes | no | yes | no | yes | yes | v0.1 |
+| `fourier_lowfreq` | active | yes | no | no | yes | yes | yes | v0.1 |
 | `zernike_amplitude` | planned | yes | no | no | yes | yes | yes | v0.3 |
 | `radial_basis` | planned | yes | no | no | yes | yes | yes | v0.4 |
 | `binary_aperture_tiles` | planned | no | no | no | no | yes | no | v0.3+ |
 | `hadamard_tiles` | planned | no | no | no | yes | yes | no | v0.4 |
 | `walsh_tiles` | planned | no | no | no | yes | yes | no | v0.4 |
 | `seeded_binary_noise` | planned | no | yes | no | no | yes | no | v0.3 |
-| `seeded_lowfreq_noise` | active | no | yes | no | yes | yes | no | v0.2 |
+| `seeded_lowfreq_noise` | active | no | yes | no | yes | yes | no | v0.1 |
 | `seeded_blue_noise` | planned | no | yes | no | no | yes | no | v0.4 |
 
 Planned families must not appear in the active registry until they are

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/lcd_mask_families/mask_sequence_spec.schema.json",
+  "title": "lcd_mask_families v0.1 mask sequence spec",
+  "type": "object",
+  "required": ["schema_version", "sequence_id", "masks"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "lcd_mask_families.v0.1"},
+    "sequence_id": {"type": "string", "minLength": 1},
+    "masks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "schema_version",
+          "family_id",
+          "family_version",
+          "parameters",
+          "grid",
+          "projection"
+        ]
+      }
+    },
+    "metadata": {"type": "object"}
+  }
+}

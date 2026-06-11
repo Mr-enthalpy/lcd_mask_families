@@ -1,28 +1,28 @@
 # Current Stage
 
-`lcd_mask_families` has completed its v0.2 family core.
+`lcd_mask_families` is stabilizing its v0.1 public mask-generation contract for
+first downstream wrapping.
 
-The repository is currently in a pre-integration stabilization stage. The main
-goal is to keep the pure-function mask generation core stable while downstream
-repositories define their own wrappers.
+The current goal is not family expansion. The goal is to freeze the minimum API
+and serialization contract that downstream repositories can reference without
+this package depending on them.
 
 ## Active Family Set
 
 * `stripes`
-* `blocks`
-* `fourier_lowfreq`
 * `radial_zones`
+* `fourier_lowfreq`
+* `blocks`
 * `seeded_lowfreq_noise`
 
 ## Current Priorities
 
-* stabilize the public API and metadata registry;
-* keep examples JSON-only and dependency-free;
-* keep tests deterministic and hardware-free;
-* document consumer boundaries;
-* prepare downstream wrapper guidance without implementing those wrappers;
-* avoid starting v0.3 family expansion until downstream wrapper needs are
-  clearer.
+* stabilize public exports;
+* keep mask instance and sequence specs JSON/YAML serializable;
+* keep hash identity deterministic within `CONTRACT_VERSION`;
+* expose metadata for every active family;
+* keep examples small and deterministic;
+* document the `optic_system` handshake without implementing it.
 
 ## Non-Goals
 
@@ -33,4 +33,4 @@ repositories define their own wrappers.
 * no H-matrix diagnostics;
 * no reconstruction code;
 * no optimization loops;
-* no torch dependency unless a future optional backend is explicitly planned.
+* no hardware tests.

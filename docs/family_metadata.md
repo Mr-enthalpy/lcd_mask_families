@@ -6,7 +6,7 @@ validation.
 
 ## Current Active Metadata Set
 
-As of v0.2, active metadata is expected for:
+As of v0.1, active metadata is expected for:
 
 ```text
 stripes
@@ -31,13 +31,24 @@ FAMILY_METADATA = FamilyMetadata(
     family_id="...",
     family_version="0.1.0",
     status="active",
-    differentiable=True,
-    continuous_parameters=True,
-    seeded=False,
-    diffraction_oriented=True,
-    orthogonal_basis=False,
-    recommended_for_capture=True,
-    recommended_for_optimization=True,
+    differentiability={
+        "continuous_parameters": True,
+        "differentiable_render": True,
+        "differentiable_projection": "none",
+        "seed_is_optimization_variable": False,
+    },
+    design_intent={
+        "diffraction_oriented": True,
+        "orthogonal_basis": False,
+        "seeded_random": False,
+        "recommended_for_capture": True,
+        "recommended_for_optimization": True,
+        "random_walk_risk": "low",
+    },
+    response_prior={
+        "expected_effect": ["response_space_coverage"],
+        "validated_by_measured_psf": False,
+    },
     notes="...",
 )
 ```
