@@ -1,6 +1,6 @@
 # Downstream Readiness
 
-`lcd_mask_families` v0.2 is ready for downstream wrapper design, not downstream
+`lcd_mask_families` v0.1 is ready for downstream wrapper design, not downstream
 adapter implementation inside this repository.
 
 All downstream repositories should treat this package as a pure mask rendering

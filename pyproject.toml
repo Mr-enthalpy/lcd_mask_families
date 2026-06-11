@@ -8,10 +8,10 @@ version = "0.1.0"
 description = "Pure deterministic LCD mask family rendering kernels."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = ["numpy"]
+dependencies = ["numpy", "pyyaml"]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "jsonschema"]
 
 [tool.setuptools.packages.find]
 where = ["src"]

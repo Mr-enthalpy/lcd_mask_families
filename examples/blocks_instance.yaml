@@ -1,0 +1,22 @@
+schema_version: lcd_mask_families.v0.1
+family_id: blocks
+family_version: 0.1.0
+parameters:
+  block_h: 4
+  block_w: 4
+  offset_y: 0
+  offset_x: 0
+  invert: false
+grid:
+  coordinate_frame: pixel_index
+  shape_hw: [32, 32]
+projection:
+  output_dtype: uint8
+  value_range: [0, 255]
+  quantization: round
+  clip: true
+  normalize: none
+identity:
+  mask_id: blocks_example_000
+metadata:
+  role: handshake_example

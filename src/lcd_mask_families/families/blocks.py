@@ -10,13 +10,28 @@ FAMILY_METADATA = FamilyMetadata(
     family_id="blocks",
     family_version="0.1.0",
     status="active",
-    differentiable=False,
-    continuous_parameters=False,
-    seeded=False,
-    diffraction_oriented=False,
-    orthogonal_basis=False,
-    recommended_for_capture=True,
-    recommended_for_optimization=False,
+    differentiability={
+        "continuous_parameters": False,
+        "differentiable_render": False,
+        "differentiable_projection": "none",
+        "seed_is_optimization_variable": False,
+    },
+    design_intent={
+        "diffraction_oriented": False,
+        "orthogonal_basis": False,
+        "seeded_random": False,
+        "recommended_for_capture": True,
+        "recommended_for_optimization": False,
+        "random_walk_risk": "medium",
+    },
+    response_prior={
+        "expected_effect": ["response_space_coverage"],
+        "validated_by_measured_psf": False,
+    },
+    parameter_schema={
+        "required": ["block_h", "block_w"],
+        "optional": ["offset_y", "offset_x", "invert"],
+    },
     notes=(
         "Structured periodic block/checker family for capture diversity and "
         "generalization tests, not ordinary gradient-based optimization."

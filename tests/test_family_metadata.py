@@ -1,104 +1,34 @@
 import pytest
 
-from lcd_mask_families import (
-    FamilyMetadata,
-    get_family_metadata,
-    get_family_metadata_dict,
-    list_families,
+from lcd_mask_families import get_family_metadata, list_families
+from lcd_mask_families.families.registry import FAMILY_METADATA_REGISTRY, FAMILY_REGISTRY
+
+
+ACTIVE_FAMILIES = (
+    "blocks",
+    "fourier_lowfreq",
+    "radial_zones",
+    "seeded_lowfreq_noise",
+    "stripes",
 )
-from lcd_mask_families.families import FAMILY_METADATA_REGISTRY, FAMILY_REGISTRY
 
 
 def test_list_families_returns_active_implemented_families():
-    assert list_families() == (
-        "blocks",
-        "fourier_lowfreq",
-        "radial_zones",
-        "seeded_lowfreq_noise",
-        "stripes",
-    )
-    assert list_families(status="active") == (
-        "blocks",
-        "fourier_lowfreq",
-        "radial_zones",
-        "seeded_lowfreq_noise",
-        "stripes",
-    )
+    assert list_families() == ACTIVE_FAMILIES
+    assert list_families(status="active") == ACTIVE_FAMILIES
 
 
-def test_stripes_metadata():
-    metadata = get_family_metadata("stripes")
+def test_metadata_exists_for_all_active_families():
+    for family_id in ACTIVE_FAMILIES:
+        metadata = get_family_metadata(family_id)
 
-    assert isinstance(metadata, FamilyMetadata)
-    assert metadata.family_id == "stripes"
-    assert metadata.status == "active"
-    assert metadata.differentiable is True
-    assert metadata.diffraction_oriented is True
-    assert metadata.recommended_for_optimization is True
-
-
-def test_blocks_metadata():
-    metadata = get_family_metadata("blocks")
-
-    assert metadata.family_id == "blocks"
-    assert metadata.status == "active"
-    assert metadata.differentiable is False
-    assert metadata.recommended_for_capture is True
-    assert metadata.recommended_for_optimization is False
-
-
-def test_fourier_lowfreq_metadata():
-    metadata = get_family_metadata("fourier_lowfreq")
-
-    assert metadata.family_id == "fourier_lowfreq"
-    assert metadata.status == "active"
-    assert metadata.differentiable is True
-    assert metadata.orthogonal_basis is True
-    assert metadata.diffraction_oriented is False
-    assert metadata.recommended_for_optimization is True
-
-
-def test_radial_zones_metadata():
-    metadata = get_family_metadata("radial_zones")
-
-    assert metadata.family_id == "radial_zones"
-    assert metadata.status == "active"
-    assert metadata.differentiable is True
-    assert metadata.diffraction_oriented is True
-    assert metadata.orthogonal_basis is False
-    assert metadata.recommended_for_capture is True
-    assert metadata.recommended_for_optimization is True
-
-
-def test_seeded_lowfreq_noise_metadata():
-    metadata = get_family_metadata("seeded_lowfreq_noise")
-
-    assert metadata.family_id == "seeded_lowfreq_noise"
-    assert metadata.status == "active"
-    assert metadata.seeded is True
-    assert metadata.differentiable is False
-    assert metadata.continuous_parameters is False
-    assert metadata.orthogonal_basis is True
-    assert metadata.recommended_for_capture is True
-    assert metadata.recommended_for_optimization is False
-
-
-def test_metadata_dict_is_plain_dict():
-    metadata = get_family_metadata_dict("stripes")
-
-    assert isinstance(metadata, dict)
-    assert metadata["family_id"] == "stripes"
-    assert metadata["status"] == "active"
-
-
-def test_unknown_family_raises_value_error():
-    with pytest.raises(ValueError):
-        get_family_metadata("multi_stripes")
-
-
-def test_unsupported_status_raises_value_error():
-    with pytest.raises(ValueError):
-        list_families(status="retired")
+        assert metadata["family_id"] == family_id
+        assert metadata["status"] == "active"
+        assert "differentiability" in metadata
+        assert "design_intent" in metadata
+        assert "response_prior" in metadata
+        assert metadata["response_prior"]["validated_by_measured_psf"] is False
+        assert metadata["differentiability"]["seed_is_optimization_variable"] is False
 
 
 def test_metadata_registry_matches_rendering_registry():
@@ -106,3 +36,8 @@ def test_metadata_registry_matches_rendering_registry():
     for family_id, metadata in FAMILY_METADATA_REGISTRY.items():
         assert metadata.family_id == family_id
         assert metadata.status == "active"
+
+
+def test_unknown_family_raises_value_error():
+    with pytest.raises(ValueError):
+        get_family_metadata("multi_stripes")

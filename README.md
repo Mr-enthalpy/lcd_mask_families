@@ -3,29 +3,17 @@
 `lcd_mask_families` is a small pure-function kernel library for deterministic,
 parameterized LCD mask families.
 
-It owns the mathematical map from family parameters to continuous masks and
-display-projected masks. It does not implement capture plans, LCD services, PSF
-measurement, surrogate learning, reconstruction, H-matrix diagnostics, or mask
-optimization loops. Downstream repositories should wrap this core API for their
-own runtime needs.
+It owns only the mathematical map:
 
-The v0.2 family set is complete. The repository is currently in a
-pre-integration stabilization stage: active families, metadata, examples,
-deterministic hashing, and tests should remain stable while downstream
-repositories decide how to wrap the core API.
+```text
+family + parameters + grid + projection policy -> mask
+```
 
-This stage should not add downstream adapters or begin v0.3 family expansion.
-The implementation is NumPy-only. Torch or other differentiable backends may be
-added later as optional work, provided they preserve the same mathematical
-definitions and deterministic behavior.
-
-The active public API is intentionally small. Family-specific integration into
-capture plans, differentiable training loops, or reconstruction experiments
-belongs in downstream repositories.
-
-All consumers use the same core functions and wrap them independently. This
-package should not grow separate APIs for capture, forward-model training, or
-reconstruction use cases.
+Downstream repositories decide how to use the rendered masks. `optic_system`
+may wrap this package for capture plans and physical LCD display. `LCD_forward`
+may wrap the same contract for differentiable mask generation and
+LCD-to-operator modelling. `reconstruction` may consume mask identity or mask
+sequences. This package must not import or understand those repositories.
 
 ## Install
 
@@ -40,79 +28,105 @@ pip install -e ".[dev]"
 pytest -q
 ```
 
-## Minimal Usage
+## v0.1 Stable Contract
 
-```python
-from lcd_mask_families import (
-    GridSpec,
-    ProjectionSpec,
-    render_display_mask,
-)
+v0.1 stable:
 
-grid = GridSpec(coordinate_frame="normalized_lcd_pupil", shape_hw=(64, 64))
-projection = ProjectionSpec(output_dtype="uint8")
+* spec structure for `MaskInstanceSpec` and `MaskSequenceSpec`;
+* public pure rendering functions;
+* deterministic hash identity for mask instances and sequences;
+* active family registry;
+* active family metadata shape;
+* minimal JSON/YAML examples in `examples/`;
+* JSON schema locations in `schemas/`.
 
-mask = render_display_mask(
-    "stripes",
-    {
-        "angle_rad": 0.0,
-        "period": 0.25,
-        "phase_rad": 0.0,
-        "duty": 0.5,
-    },
-    grid,
-    projection,
-)
-```
+Not stable:
+
+* planned family list;
+* downstream wrappers;
+* physical PSF interpretation;
+* optimization recipes;
+* torch or other differentiable backend support.
+
+Breaking spec changes require a `CONTRACT_VERSION` bump. New optional fields may
+be added without breaking compatibility if defaults exist. Active family
+parameter names should not change silently. Hash semantics must remain stable
+within a contract version.
 
 ## Public API
 
 ```python
-render_continuous_mask(family, params, grid, *, backend="numpy")
-project_display_mask(mask, projection, *, backend="numpy")
-render_display_mask(family, params, grid, projection, *, backend="numpy")
-list_families()
-get_family_metadata(family)
-mask_spec_hash(spec)
-array_hash(mask)
+__version__
+CONTRACT_VERSION
+
+MaskFamilySpec
+MaskInstanceSpec
+MaskSequenceSpec
+GridSpec
+ProjectionSpec
+MaskIdentity
+RenderedMask
+
+render_continuous_mask
+project_display_mask
+render_display_mask
+render_mask_instance
+render_mask_sequence
+
+canonicalize_spec
+hash_mask_instance
+hash_mask_sequence
+
+load_mask_instance_spec
+load_mask_sequence_spec
+dump_mask_instance_spec
+dump_mask_sequence_spec
+
+list_families
+get_family_metadata
 ```
 
-## Current Stage
-
-The active v0.2 family set is complete:
-
-* `stripes`: periodic stripe masks with optional smooth relaxation.
-* `blocks`: deterministic periodic block/checker masks.
-* `fourier_lowfreq`: smooth low-frequency Fourier basis masks.
-* `radial_zones`: concentric or chirped radial zone masks.
-* `seeded_lowfreq_noise`: seeded smooth pseudo-random low-frequency masks.
-
-Mask identity should come from portable specs and rendering metadata, not from
-experiment-local filenames. Use `mask_spec_hash` for specs and `array_hash` for
-rendered arrays.
-
-Active family metadata is queryable:
+## Minimal Usage
 
 ```python
-from lcd_mask_families import get_family_metadata, list_families
+from lcd_mask_families import load_mask_instance_spec, render_mask_instance
 
-assert list_families() == (
-    "blocks",
-    "fourier_lowfreq",
-    "radial_zones",
-    "seeded_lowfreq_noise",
-    "stripes",
-)
-metadata = get_family_metadata("seeded_lowfreq_noise")
+spec = load_mask_instance_spec("examples/stripes_instance.yaml")
+rendered = render_mask_instance(spec, backend="numpy")
+
+mask = rendered.mask
+mask_hash = rendered.hash
 ```
 
-## Planning Docs
+## Active Families
 
-Detailed planning lives outside the README:
+The v0.1 active registry includes only implemented, documented, tested
+families:
 
-* [Current stage](docs/current_stage.md)
-* [v0.2 contract](docs/v0_2_contract.md)
-* [Downstream readiness](docs/downstream_readiness.md)
-* [Mask family taxonomy](docs/family_taxonomy.md)
-* [Family metadata policy](docs/family_metadata.md)
-* [Implementation plan](docs/implementation_plan.md)
+* `stripes`
+* `radial_zones`
+* `fourier_lowfreq`
+* `blocks`
+* `seeded_lowfreq_noise`
+
+Planned families may be discussed in design documents, but they must not appear
+in `list_families()` until they have a renderer, metadata, examples, and tests.
+
+## Contract Files
+
+Examples:
+
+* `examples/stripes_instance.yaml`
+* `examples/radial_zones_instance.yaml`
+* `examples/fourier_lowfreq_instance.yaml`
+* `examples/blocks_instance.yaml`
+* `examples/seeded_lowfreq_noise_instance.yaml`
+* `examples/simple_sequence.yaml`
+
+Schemas:
+
+* `schemas/mask_instance_spec.schema.json`
+* `schemas/mask_sequence_spec.schema.json`
+* `schemas/family_metadata.schema.json`
+
+See `docs/optic_system_handshake.md` for the first downstream handoff contract.

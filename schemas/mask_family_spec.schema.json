@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/lcd_mask_families/mask_family_spec.schema.json",
+  "title": "lcd_mask_families v0.1 mask family spec",
+  "type": "object",
+  "required": [
+    "family_id",
+    "family_version",
+    "parameter_schema",
+    "differentiability",
+    "design_intent",
+    "response_prior"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "family_id": {"type": "string", "minLength": 1},
+    "family_version": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["active", "experimental", "planned"]},
+    "parameter_schema": {"type": "object"},
+    "differentiability": {"type": "object"},
+    "design_intent": {"type": "object"},
+    "response_prior": {"type": "object"},
+    "metadata": {"type": "object"}
+  }
+}

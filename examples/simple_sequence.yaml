@@ -1,0 +1,48 @@
+schema_version: lcd_mask_families.v0.1
+sequence_id: simple_sequence_000
+masks:
+  - schema_version: lcd_mask_families.v0.1
+    family_id: stripes
+    family_version: 0.1.0
+    parameters:
+      angle_rad: 0.0
+      period: 0.25
+      phase_rad: 0.0
+      duty: 0.5
+    grid:
+      coordinate_frame: normalized_lcd_pupil
+      shape_hw: [16, 16]
+    projection:
+      output_dtype: uint8
+      value_range: [0, 255]
+      quantization: round
+      clip: true
+      normalize: none
+    identity:
+      mask_id: sequence_stripes_000
+    metadata:
+      role: sequence_example
+  - schema_version: lcd_mask_families.v0.1
+    family_id: blocks
+    family_version: 0.1.0
+    parameters:
+      block_h: 4
+      block_w: 4
+      offset_y: 0
+      offset_x: 0
+      invert: false
+    grid:
+      coordinate_frame: pixel_index
+      shape_hw: [16, 16]
+    projection:
+      output_dtype: uint8
+      value_range: [0, 255]
+      quantization: round
+      clip: true
+      normalize: none
+    identity:
+      mask_id: sequence_blocks_001
+    metadata:
+      role: sequence_example
+metadata:
+  role: handshake_sequence_example

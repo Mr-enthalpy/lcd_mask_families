@@ -1,0 +1,25 @@
+schema_version: lcd_mask_families.v0.1
+family_id: seeded_lowfreq_noise
+family_version: 0.1.0
+parameters:
+  seed: 1234
+  max_frequency: 3
+  spectrum_decay: 1.0
+  coefficient_scale: 1.0
+  bias: 0.0
+  contrast: 1.0
+  activation: sigmoid
+grid:
+  coordinate_frame: normalized_lcd_pupil
+  shape_hw: [32, 32]
+projection:
+  output_dtype: uint8
+  value_range: [0, 255]
+  quantization: round
+  clip: true
+  normalize: none
+identity:
+  mask_id: seeded_lowfreq_noise_example_000
+metadata:
+  role: handshake_example
+seed: 1234
